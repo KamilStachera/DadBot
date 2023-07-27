@@ -9,28 +9,23 @@ using System.Linq;
 using DadBot.Services;
 using DadBot.Ulityties;
 
-namespace DadBot.Commands
+namespace DadBot.Commands.LOL
 {
-    class LOLCommands : BaseCommandModule
-    {
-        [Command("addSummoner")]
-        public async Task AddUserCommand(CommandContext ctx, DiscordMember user, string summonerName)
-        {
-            await ctx.RespondAsync($"IGN: {summonerName} \n DiscordID: {user} \n added to ARAM database");
-        }
 
+    class LOLAramCustomsCommands : BaseCommandModule
+    {
         [Description("This command creates aram on given discord channel")]
         [Command("Aram")]
         public async Task AramCommand(CommandContext ctx, [Description("Channel to generate aram on")] DiscordChannel channel)
         {
             var users = channel.Users.ToList();
 
-            if (users.Count() == 0)
+            if (users.Count == 0)
             {
                 await ctx.RespondAsync("No users on given channel silly");
                 return;
             }
-            if (users.Count() % 2 != 0)
+            if (users.Count % 2 != 0)
             {
                 await ctx.RespondAsync("Channel should contain even number of users");
                 return;
@@ -53,7 +48,7 @@ namespace DadBot.Commands
 
             var users = channel.Users.ToList();
 
-            if (users.Count() % 2 != 0)
+            if (users.Count % 2 != 0)
             {
                 await ctx.RespondAsync("Channel should contain even number of users");
                 return;

@@ -1,35 +1,25 @@
 ﻿using DSharpPlus;
 using System;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Linq;
-using System.Collections.Generic;
-using System.IO;
 using DSharpPlus.CommandsNext;
+using DadBot.Commands.LOL;
 using DadBot.Commands;
+using Microsoft.Extensions.DependencyInjection;
+using System.Net.Http;
 
 namespace DadBot
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            MainAsync().GetAwaiter().GetResult();
-        }
 
-        static string GetApiKey()
-        {
-            return Environment.GetEnvironmentVariable("DiscordKey", EnvironmentVariableTarget.Machine);
-        }
-
-        static async Task MainAsync()
-        {
 
             var discord = new DiscordClient(new DiscordConfiguration()
             {
                 Token = GetApiKey(),
                 TokenType = TokenType.Bot,
-                Intents = DiscordIntents.AllUnprivileged
+                Intents = DiscordIntents.AllUnprivileged | DiscordIntents.MessageContents
             });
 
             var commands = discord.UseCommandsNext(new CommandsNextConfiguration()
@@ -37,35 +27,17 @@ namespace DadBot
                 StringPrefixes = new[] { "!s" },
             });
 
-            commands.RegisterCommands<LOLCommands>();
-          //  commands.RegisterCommands<GeneralCommands>();
+            commands.RegisterCommands<LOLAramCustomsCommands>();
+            commands.RegisterCommands<LOLAramStatsCommands>();
+            //  commands.RegisterCommands<GeneralCommands>();
 
             await discord.ConnectAsync();
             await Task.Delay(-1);
         }
 
+        static string GetApiKey()
+        {
+            return Environment.GetEnvironmentVariable("DiscordKey", EnvironmentVariableTarget.Machine);
+        }
     }
 }
-//#region codinghorror.com
-//class Program : Object
-//{
-//    static int _I = 1;
-//    /// <summary>
-//    /// The quick brown fox jumps over the lazy dog
-//    /// THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG
-//    /// </summary>
-//    static void Main(string[] args)
-//    {
-//        Uri Illegal1Uri = new Uri("http://packmyboxwith/jugs.html?q=five-dozen&t=liquor");
-//        Regex OperatorRegex = new Regex(@"S#$", RegexOptions.IgnorePatternWhitespace);
-//        for (int O = 0; O < 123456789; O++)
-//        {
-//            _I += (O % 3) * ((O / 1) ^ 2) - 5;
-//            if (!OperatorRegex.IsMatch(Illegal1Uri.ToString()))
-//            {
-//                Console.WriteLine(Illegal1Uri);
-//            }
-//        }
-//    }
-//}
-//#endregion
