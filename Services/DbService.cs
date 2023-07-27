@@ -44,5 +44,12 @@ namespace DadBot.Services
             var random = new Random();
             return champs.OrderBy(x => random.Next()).Take(number).ToList();
         }
+
+        public List<string> GetChampions(int number, List<string> excluding)
+        {
+            var champs = GetChampions().Except(excluding);
+            var random = new Random();
+            return champs.OrderBy(x => random.Next()).Take(number).ToList();
+        }
     }
 }
